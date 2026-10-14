@@ -20,8 +20,9 @@ pipeline {
             }
         }
 
-        stage('Cleanup') {
+        stage('docker container') {
             steps {
+                sh 'docker stop -f frontend-container || true'
                 sh 'docker rm -f frontend-container || true'
             }
         }
