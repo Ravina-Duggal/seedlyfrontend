@@ -1,24 +1,33 @@
-pipeline{
+
+pipeline {
     agent any
-    stages{
-        stage('cloning the git repo'){
-            steps{
-                git url: 'https://github.com/Ravina-Duggal/seedlyfrontend.git', branch:'main'
+
+    environment {
+        DOCKER_BUILDKIT = '1'
+    }
+
+    stages {
+        stage('Checkout SCM') {
+            steps {
+                git url: 'https://github.com/Ravina-Duggal/seedlyfrontend.git',
+                    branch: 'main'
             }
         }
-        stage('build'){
-            steps{
+
+        stage('Build') {
+            steps {
                 sh 'docker build -t frontend .'
             }
         }
-        stage('restart'){
-            steps{
-                sh "docker stop frontend-container || true"
-                sh "docker rm frontend-container || true"
+
+        stage('Cleanup') {
+            steps {
+                sh 'docker rm -f frontend-container || true'
             }
         }
-        stage('start'){
-            steps{
+
+        stage('Start') {
+            steps {
                 sh 'docker run -d --name frontend-container -p 5173:5173 frontend'
             }
         }
