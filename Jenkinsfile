@@ -8,12 +8,18 @@ pipeline{
         }
         stage('build'){
             steps{
-                sh 'docker build -t seedlyfrontend .'
+                sh 'docker build -t frontend .'
+            }
+        }
+        stage('cleanup'){
+            steps{
+                sh "docker stop frontend-container || true"
+                sh "docker rm frontend-container || true"
             }
         }
         stage('start'){
             steps{
-                sh 'docker run -d -p 5173:5173 seedlyfrontend'
+                sh 'docker run -d --name fronted-container -p 5173:5173 frontend'
             }
         }
     }
