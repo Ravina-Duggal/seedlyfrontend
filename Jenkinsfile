@@ -19,7 +19,7 @@ pipeline{
         }
         stage('start'){
             steps{
-                sh 'docker run -d --name fronted-container -p 5173:5173 frontend'
+                sh 'docker run -d --name frontend-container -p 5173:5173 frontend'
             }
         }
     }
