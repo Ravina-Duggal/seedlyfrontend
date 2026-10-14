@@ -11,7 +11,7 @@ pipeline{
                 sh 'docker build -t frontend .'
             }
         }
-        stage('cleanup'){
+        stage('restart'){
             steps{
                 sh "docker stop frontend-container || true"
                 sh "docker rm frontend-container || true"
